@@ -12,6 +12,7 @@ import {
   Flex,
   IconButton,
   Link,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { semanticColors } from "../../styles";
@@ -25,10 +26,14 @@ export const Layout = () => {
     <>
       <Flex
         h="80px"
+        w="100%"
         borderBottom="1px solid"
         borderColor="gray.3"
         justifyContent="space-around"
         alignItems="center"
+        position="sticky"
+        top="0"
+        bgColor="white"
       >
         <IconButton
           aria-label="menu"
@@ -71,6 +76,31 @@ export const Layout = () => {
       </Flex>
       <Flex w="1184px" h="100vh" mx="auto">
         <Outlet />
+      </Flex>
+      <Flex h="130px" w="100%" bgColor="gray.2" px="200px" alignItems="center">
+        <Box w="1184px" mx="auto">
+          <Text fontSize="lg" fontWeight="bold">
+            <Box as="span" color={semanticColors.secondary}>
+              MOM
+            </Box>
+            <Box as="span" color={semanticColors.primary}>
+              ’
+            </Box>
+            <Box as="span" color={semanticColors.secondary}>
+              S
+            </Box>
+            <Box as="span" color={semanticColors.primary}>
+              &nbsp;TOUCH
+            </Box>
+            <Box as="span">&nbsp;금오공대점</Box>
+          </Text>
+          <Text fontSize="sm">경북 구미시 대학로 52</Text>
+          <Text fontSize="sm">전화번호: 054-476-9958</Text>
+          <Text fontSize="sm">운영시간: 09:00 ~ 22:00</Text>
+          <Text fontSize="sm" color="black" fontWeight="semibold">
+            © 2021 MOM’S TOUCH. ALL RIGHTS RESERVED.
+          </Text>
+        </Box>
       </Flex>
     </>
   );
