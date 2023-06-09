@@ -158,6 +158,22 @@ const MenuDrawer = ({ isOpen, onClose }: MenuDrawerProps) => {
           >
             주문하기
           </Button>
+          <Button
+            as={Link}
+            href="/mypage"
+            w="full"
+            h="3rem"
+            my="2px"
+            _hover={{
+              bgColor: semanticColors.primary,
+              textDecor: "none",
+              color: "white",
+            }}
+            variant="ghost"
+            fontSize="2xl"
+          >
+            마이페이지
+          </Button>
         </DrawerBody>
         <DrawerFooter borderTop="1px solid" borderColor="gray.4">
           <Button
