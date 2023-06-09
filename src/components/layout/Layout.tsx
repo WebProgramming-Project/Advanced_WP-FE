@@ -77,7 +77,14 @@ export const Layout = () => {
       <Flex w="1184px" h="100vh" mx="auto">
         <Outlet />
       </Flex>
-      <Flex h="130px" w="100%" bgColor="gray.2" px="200px" alignItems="center">
+      <Flex
+        mt="10rem"
+        h="130px"
+        w="100%"
+        bgColor="gray.2"
+        px="200px"
+        alignItems="center"
+      >
         <Box w="1184px" mx="auto">
           <Text fontSize="lg" fontWeight="bold">
             <Box as="span" color={semanticColors.secondary}>
