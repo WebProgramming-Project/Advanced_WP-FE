@@ -3,6 +3,7 @@ import { MenuItem } from ".";
 
 interface MenuContainerProps {
   menu: {
+    id: number;
     imgSrc: string;
     title: string;
     description: string;
@@ -20,6 +21,7 @@ export const MenuContainer = ({ menu }: MenuContainerProps) => {
     >
       {menu.map((item) => (
         <MenuItem
+          id={item.id}
           imgSrc={item.imgSrc}
           title={item.title}
           description={item.description}

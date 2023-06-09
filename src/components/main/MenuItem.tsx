@@ -11,12 +11,13 @@ import { useState } from "react";
 import { semanticColors } from "../../styles";
 
 interface MenuItemProps {
+  id: number;
   imgSrc: string;
   title: string;
   description: string;
 }
 
-export const MenuItem = ({ imgSrc, title, description }: MenuItemProps) => {
+export const MenuItem = ({ id, imgSrc, title, description }: MenuItemProps) => {
   const [isOver, setIsOver] = useState<boolean>(false);
 
   return (
@@ -44,6 +45,7 @@ export const MenuItem = ({ imgSrc, title, description }: MenuItemProps) => {
         </VStack>
       ) : (
         <Link
+          href={`/detail/${id}`}
           _hover={{ textDecor: "none" }}
           onMouseLeave={() => setIsOver(false)}
         >
