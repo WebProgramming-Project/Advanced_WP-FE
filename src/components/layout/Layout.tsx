@@ -77,7 +77,14 @@ export const Layout = () => {
       <Flex w="1184px" h="100vh" mx="auto">
         <Outlet />
       </Flex>
-      <Flex h="130px" w="100%" bgColor="gray.2" px="200px" alignItems="center">
+      <Flex
+        mt="10rem"
+        h="130px"
+        w="100%"
+        bgColor="gray.2"
+        px="200px"
+        alignItems="center"
+      >
         <Box w="1184px" mx="auto">
           <Text fontSize="lg" fontWeight="bold">
             <Box as="span" color={semanticColors.secondary}>
@@ -150,6 +157,22 @@ const MenuDrawer = ({ isOpen, onClose }: MenuDrawerProps) => {
             fontSize="2xl"
           >
             주문하기
+          </Button>
+          <Button
+            as={Link}
+            href="/mypage"
+            w="full"
+            h="3rem"
+            my="2px"
+            _hover={{
+              bgColor: semanticColors.primary,
+              textDecor: "none",
+              color: "white",
+            }}
+            variant="ghost"
+            fontSize="2xl"
+          >
+            마이페이지
           </Button>
         </DrawerBody>
         <DrawerFooter borderTop="1px solid" borderColor="gray.4">
