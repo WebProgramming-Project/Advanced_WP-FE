@@ -7,6 +7,9 @@ import {
   postComplete,
   postCencel,
   postAccept,
+  getOrderBaseket,
+  deleteOrder,
+  getOrderStat,
 } from "../api/order";
 
 // 주문하기
