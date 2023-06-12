@@ -34,4 +34,9 @@ declare module "@types" {
     menuNames: string[];
     orderStatus: string;
   }
+
+  interface OrderStat {
+    menu: Menu;
+    count: number;
+  }
 }

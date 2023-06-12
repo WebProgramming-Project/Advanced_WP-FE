@@ -113,6 +113,16 @@ export const ShoppingBasketPage = () => {
             price={item.price * item.count}
           />
         ))}
+        {basketList.length === 0 && (
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            h="10rem"
+            color={semanticColors.primary}
+          >
+            <Text fontSize="1.5rem">장바구니가 비어있습니다.</Text>
+          </Flex>
+        )}
         <Flex
           alignItems="center"
           justifyContent="flex-end"

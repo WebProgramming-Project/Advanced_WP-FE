@@ -128,6 +128,20 @@ export const MyPage = () => {
               orderStatus={order.orderStatus}
             />
           ))}
+          {orderList.length === 0 && (
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              w="full"
+              h="20rem"
+              border="1px solid"
+              borderColor="yellow.5"
+            >
+              <Text fontSize="2xl" color="yellow.7">
+                주문 내역이 없습니다.
+              </Text>
+            </Flex>
+          )}
         </Box>
       </Box>
 

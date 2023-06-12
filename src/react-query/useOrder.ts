@@ -4,6 +4,7 @@ import {
   deleteOrder,
   getAllOrderList,
   getOrderBaseket,
+  getOrderStat,
   postOrder,
   postOrderBaseket,
 } from "../api/order";
@@ -36,6 +37,16 @@ export const useGetOrderBasket = () => {
   });
 };
 
+// 장바구니 삭제
 export const useDeleteOrder = () => {
   return useMutation((orderItemId: number) => deleteOrder(orderItemId));
+};
+
+// 주문 통계 조회
+export const useGetOrderStat = () => {
+  return useQuery(["orderStat"], getOrderStat, {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });
 };

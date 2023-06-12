@@ -8,6 +8,7 @@ import OrderBox from "../components/shopkeeper/order/OrderBox";
 import MiniTable from "../components/shopkeeper/policy/MiniTable";
 import PolicyItem from "../components/shopkeeper/policy/PolicyItem";
 import { MenuContainer } from "../components/shopkeeper/menu/MenuContainer";
+import { GraphContainer } from "../components/shopkeeper/stat/GraphContainer";
 
 const ShopkeeperPage = (): JSX.Element => {
   return (
@@ -46,6 +47,7 @@ const ShopkeeperPage = (): JSX.Element => {
           </TabPanel>
           <TabPanel>
             <Title title="통계" />
+            <GraphContainer />
           </TabPanel>
         </TabPanels>
       </Tabs>

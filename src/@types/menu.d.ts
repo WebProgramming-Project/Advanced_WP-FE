@@ -3,7 +3,9 @@ declare module "@types" {
     menuId: number;
     menuName: string;
     menuPrice: number;
+    discountPolicy: string;
     menuDescription: string;
+    image: string;
   }
 
   interface InsertMenu {
@@ -21,6 +23,7 @@ declare module "@types" {
     menuName: string;
     menuPrice: number;
     menuDescription: string;
+    image: string;
     discountPolicy: string;
     menuOptionList: MenuOption[];
     sideMenuList: Menu[];

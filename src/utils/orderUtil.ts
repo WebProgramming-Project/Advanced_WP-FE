@@ -1,4 +1,4 @@
-import { AllOrders, OrderSummaryInfo } from "@types";
+import { AllOrders, OrderStat, OrderSummaryInfo } from "@types";
 
 const status = [
   { eng: "ORDER", kor: "주문 중" },
@@ -25,4 +25,14 @@ export function curentOrderStauts(status: string): number {
   else if (status === "DELIVERY") return 2;
   else if (status === "COMPLETE") return 3;
   else return 0;
+}
+
+export function orderStat(statData: OrderStat[]) {
+  const statArr = statData.map((data) => {
+    return {
+      name: data.menu.menuName,
+      value: data.count,
+    };
+  });
+  return statArr;
 }

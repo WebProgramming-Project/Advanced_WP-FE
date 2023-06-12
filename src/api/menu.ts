@@ -19,7 +19,7 @@ export const getImage = (menuId: number) => {
   return customAxios<string>({
     url: `/menus/${menuId}/image`,
     method: "GET",
-  }).then((res) => res.data);
+  }).then((res) => console.log(res.config.env?.FormData));
 };
 
 export const postMenu = (data: InsertMenu) => {

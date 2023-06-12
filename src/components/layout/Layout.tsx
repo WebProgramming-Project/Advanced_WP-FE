@@ -58,6 +58,7 @@ export const Layout = () => {
         position="sticky"
         top="0"
         bgColor="white"
+        zIndex="1"
       >
         <IconButton
           aria-label="menu"
@@ -180,6 +181,22 @@ const MenuDrawer = ({ isOpen, onClose }: MenuDrawerProps) => {
             fontSize="2xl"
           >
             마이페이지
+          </Button>
+          <Button
+            as={Link}
+            href="/shopkeeper"
+            w="full"
+            h="3rem"
+            my="2px"
+            _hover={{
+              bgColor: semanticColors.primary,
+              textDecor: "none",
+              color: "white",
+            }}
+            variant="ghost"
+            fontSize="2xl"
+          >
+            점주페이지
           </Button>
         </DrawerBody>
         <DrawerFooter borderTop="1px solid" borderColor="gray.4">
