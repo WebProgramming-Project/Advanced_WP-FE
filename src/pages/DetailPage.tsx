@@ -3,14 +3,13 @@ import { useParams } from "react-router-dom";
 
 import { MenuInfo, SetConfig, ShoppingItemAdd } from "../components/detail";
 import { useEffect, useState } from "react";
-import { useGetImage, useGetMenuDetail } from "../react-query/useMenu";
+import { useGetMenuDetail } from "../react-query/useMenu";
 import { MenuDetail } from "@types";
 
 export const DetailPage = () => {
   const { id } = useParams();
 
   const { data } = useGetMenuDetail(Number(id));
-  const { data: image } = useGetImage(Number(id));
 
   const [menu, setMenu] = useState<MenuDetail>();
   const [activeBtn, setActiveBtn] = useState<string>("");
@@ -26,7 +25,7 @@ export const DetailPage = () => {
       <Box w="784px" mx="auto" py="3rem" textAlign="center">
         <MenuInfo
           title={menu?.menuName || ""}
-          imgSrc={image || ""}
+          imgSrc={menu?.image || ""}
           description={menu?.menuDescription || ""}
         />
         <SetConfig />

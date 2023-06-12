@@ -20,6 +20,8 @@ export const MenuContainer = ({ menu }: MenuContainerProps) => {
           id={item.menuId}
           title={item.menuName}
           description={item.menuDescription}
+          discountPolicy={item.discountPolicy}
+          image={item.image}
         />
       ))}
     </SimpleGrid>
