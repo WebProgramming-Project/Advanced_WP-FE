@@ -1,13 +1,9 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import { MenuItem } from ".";
+import { Menu } from "@types";
 
 interface MenuContainerProps {
-  menu: {
-    id: number;
-    imgSrc: string;
-    title: string;
-    description: string;
-  }[];
+  menu: Menu[];
 }
 
 export const MenuContainer = ({ menu }: MenuContainerProps) => {
@@ -21,10 +17,9 @@ export const MenuContainer = ({ menu }: MenuContainerProps) => {
     >
       {menu.map((item) => (
         <MenuItem
-          id={item.id}
-          imgSrc={item.imgSrc}
-          title={item.title}
-          description={item.description}
+          id={item.menuId}
+          title={item.menuName}
+          description={item.menuDescription}
         />
       ))}
     </SimpleGrid>

@@ -17,23 +17,92 @@ import {
   Image,
   Text,
   useDisclosure,
+  CheckboxGroup,
+  HStack,
+  Checkbox,
 } from "@chakra-ui/react";
-import cola from "../../assets/img/콜라.png";
-import potato from "../../assets/img/감튀.png";
 import { semanticColors } from "../../styles";
+import { Menu, MenuOption } from "@types";
+import { useEffect, useState } from "react";
+import { useGetImage } from "../../react-query/useMenu";
+import { usePostOrderBasket } from "../../react-query/useOrder";
+import { useRecoilValue } from "recoil";
+import { storeInfoState } from "../../store/store";
 
 interface ShoppingItemAddProps {
+  menuId: number;
   title: string;
+  price: number;
+  optionList: MenuOption[];
+  sideList: Menu[];
   activeBtn: string;
   setActiveBtn: (value: string) => void;
 }
 
 export const ShoppingItemAdd = ({
+  menuId,
   title,
+  price,
+  optionList,
+  sideList,
   activeBtn,
   setActiveBtn,
 }: ShoppingItemAddProps) => {
+  const { data: imgSrc1 } = useGetImage(Number(sideList[0]?.menuId || 2004));
+  const { data: imgSrc2 } = useGetImage(Number(sideList[1]?.menuId || 2005));
+  const { mutate, isLoading } = usePostOrderBasket();
+  const getStoreInfo = useRecoilValue(storeInfoState);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [priceCount, setPriceCount] = useState<number>(0);
+  const [number, setNumber] = useState<number>(1);
+  const [side1, setSide1] = useState<number>(0);
+  const [side2, setSide2] = useState<number>(0);
+  const [options, setOptions] = useState<MenuOption[]>([]);
+
+  useEffect(() => {
+    let optionPrice = 0;
+    options.map((option) => (optionPrice += option.menuOptionPrice));
+
+    if (activeBtn === "sigle") {
+      setPriceCount(price * number + side1 * 1000 + side2 * 1500 + optionPrice);
+    } else if (activeBtn === "set") {
+      setPriceCount(price + 2000 + side1 * 1000 + side2 * 1500 + optionPrice);
+    }
+  }, [activeBtn, price, number, side1, side2, options]);
+
+  const onClick = () => {
+    const optionArr = options.map((option) => option.menuOptionId);
+
+    if (activeBtn === "set") {
+      const setId =
+        optionList.find((option) => option.menuOptionName === "세트 추가")
+          ?.menuOptionId || 4003;
+
+      optionArr.push(setId);
+    }
+
+    mutate(
+      {
+        storeId: getStoreInfo.storeId,
+        menuId: menuId,
+        count: number,
+        menuOptionIds: optionArr,
+      },
+      {
+        onSuccess: () => {
+          onClose();
+          setNumber(1);
+          setSide1(0);
+          setSide2(0);
+          setOptions([]);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  };
 
   return (
     <Box>
@@ -67,7 +136,14 @@ export const ShoppingItemAdd = ({
                   {title} 세트
                 </Button>
               </Flex>
-              <NumberInput display="flex" size="md" defaultValue={1} min={1}>
+              <NumberInput
+                display="flex"
+                size="md"
+                defaultValue={1}
+                min={1}
+                value={number}
+                onChange={(value) => setNumber(Number(value))}
+              >
                 <NumberDecrementStepper
                   children="-"
                   border="1px solid"
@@ -94,6 +170,34 @@ export const ShoppingItemAdd = ({
               </NumberInput>
             </Box>
             <Divider my="1rem" />
+            <CheckboxGroup>
+              <HStack spacing="1rem">
+                {optionList.map(
+                  (option) =>
+                    option.menuOptionName !== "세트 추가" && (
+                      <Checkbox
+                        value={option.menuOptionName}
+                        isDisabled={activeBtn === ""}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setOptions([...options, option]);
+                          } else {
+                            setOptions(
+                              options.filter(
+                                (item) =>
+                                  item.menuOptionId !== option.menuOptionId
+                              )
+                            );
+                          }
+                        }}
+                      >
+                        {option.menuOptionName} +{option.menuOptionPrice}원
+                      </Checkbox>
+                    )
+                )}
+              </HStack>
+            </CheckboxGroup>
+            <Divider my="1rem" />
             <Box>
               <Heading size="md">사이드 선택</Heading>
               <Flex
@@ -105,7 +209,7 @@ export const ShoppingItemAdd = ({
               >
                 <Flex alignItems="center">
                   <Image
-                    src={potato}
+                    src={imgSrc1 || ""}
                     alt="감자튀김"
                     boxSize="4rem"
                     border="1px solid"
@@ -121,6 +225,9 @@ export const ShoppingItemAdd = ({
                     defaultValue={0}
                     min={0}
                     borderRadius="4px"
+                    value={side1}
+                    onChange={(value) => setSide1(Number(value))}
+                    isDisabled={activeBtn === ""}
                   >
                     <NumberDecrementStepper
                       children="-"
@@ -155,7 +262,7 @@ export const ShoppingItemAdd = ({
               >
                 <Flex alignItems="center">
                   <Image
-                    src={cola}
+                    src={imgSrc2 || ""}
                     alt="콜라"
                     boxSize="4rem"
                     border="1px solid"
@@ -171,6 +278,9 @@ export const ShoppingItemAdd = ({
                     defaultValue={0}
                     min={0}
                     borderRadius="4px"
+                    value={side2}
+                    onChange={(value) => setSide2(Number(value))}
+                    isDisabled={activeBtn === ""}
                   >
                     <NumberDecrementStepper
                       children="-"
@@ -205,7 +315,7 @@ export const ShoppingItemAdd = ({
                 fontWeight="bold"
                 color={semanticColors.primary}
               >
-                1,000원
+                {priceCount}원
               </Text>
             </Flex>
           </ModalBody>
@@ -213,7 +323,14 @@ export const ShoppingItemAdd = ({
             <Button mr={3} onClick={onClose}>
               취소
             </Button>
-            <Button variant="primary">장바구니 담기</Button>
+            <Button
+              variant="primary"
+              onClick={onClick}
+              isLoading={isLoading}
+              loadingText="담는 중"
+            >
+              장바구니 담기
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

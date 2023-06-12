@@ -9,16 +9,19 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { semanticColors } from "../../styles";
+import { useGetImage } from "../../react-query/useMenu";
 
 interface MenuItemProps {
   id: number;
-  imgSrc: string;
   title: string;
   description: string;
 }
 
-export const MenuItem = ({ id, imgSrc, title, description }: MenuItemProps) => {
+export const MenuItem = ({ id, title, description }: MenuItemProps) => {
+  const { data: imgSrc } = useGetImage(Number(id));
+
   const [isOver, setIsOver] = useState<boolean>(false);
+  console.log(imgSrc);
 
   return (
     <>
@@ -31,7 +34,7 @@ export const MenuItem = ({ id, imgSrc, title, description }: MenuItemProps) => {
           borderColor="gray.2"
           onMouseOver={() => setIsOver(true)}
         >
-          <Image src={imgSrc} mx="auto" boxSize="10rem" />
+          <Image src={imgSrc} w="full" h="full" mx="auto" boxSize="10rem" />
           <Heading fontSize="md">{title}</Heading>
           <Text
             fontSize="sm"

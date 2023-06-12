@@ -18,9 +18,35 @@ import {
 import { semanticColors } from "../../styles";
 import { BsCart2 } from "react-icons/bs";
 import { Outlet } from "react-router-dom";
+import { useGetStore } from "../../react-query/useStore";
+import { useEffect, useState } from "react";
+import { Store } from "@types";
+import { tohhmm } from "../../utils/dateUtil";
+import { GoogleLogin } from "@react-oauth/google";
+import jwtDecode from "jwt-decode";
+import { useSetRecoilState } from "recoil";
+import { storeInfoState } from "../../store/store";
 
 export const Layout = () => {
+  const { data } = useGetStore();
+  const setStoreInfo = useSetRecoilState(storeInfoState);
+
+  const [store, setStore] = useState<Store>({
+    storeId: 1000,
+    storeName: "맘스터치",
+    address: "경상북도 구미시 대학로 61",
+    phoneNumber: "054-476-9958",
+    open: "09:00:00",
+    close: "22:00:00",
+  });
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    if (!data) return;
+
+    setStore(data);
+    setStoreInfo(data);
+  }, [data]);
 
   return (
     <>
@@ -86,24 +112,14 @@ export const Layout = () => {
         alignItems="center"
       >
         <Box w="1184px" mx="auto">
-          <Text fontSize="lg" fontWeight="bold">
-            <Box as="span" color={semanticColors.secondary}>
-              MOM
-            </Box>
-            <Box as="span" color={semanticColors.primary}>
-              ’
-            </Box>
-            <Box as="span" color={semanticColors.secondary}>
-              S
-            </Box>
-            <Box as="span" color={semanticColors.primary}>
-              &nbsp;TOUCH
-            </Box>
-            <Box as="span">&nbsp;금오공대점</Box>
+          <Text fontSize="lg" fontWeight="bold" color={semanticColors.primary}>
+            {store.storeName}
           </Text>
-          <Text fontSize="sm">경북 구미시 대학로 52</Text>
-          <Text fontSize="sm">전화번호: 054-476-9958</Text>
-          <Text fontSize="sm">운영시간: 09:00 ~ 22:00</Text>
+          <Text fontSize="sm">{store.address}</Text>
+          <Text fontSize="sm">전화번호: {store.phoneNumber}</Text>
+          <Text fontSize="sm">
+            운영시간: {tohhmm(store.open)} ~ {tohhmm(store.close)}
+          </Text>
           <Text fontSize="sm" color="black" fontWeight="semibold">
             © 2021 MOM’S TOUCH. ALL RIGHTS RESERVED.
           </Text>
@@ -176,17 +192,15 @@ const MenuDrawer = ({ isOpen, onClose }: MenuDrawerProps) => {
           </Button>
         </DrawerBody>
         <DrawerFooter borderTop="1px solid" borderColor="gray.4">
-          <Button
-            as={Link}
-            href="/login"
-            w="full"
-            h="3rem"
-            my="2px"
-            variant="primary"
-            fontSize="2xl"
-          >
-            로그인
-          </Button>
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              console.log(credentialResponse);
+              const decoded = jwtDecode(credentialResponse?.credential || "");
+              console.log(decoded);
+            }}
+            width="120rem"
+            useOneTap
+          />
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
