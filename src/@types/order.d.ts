@@ -1,20 +1,14 @@
 declare module "@types" {
   interface Order {
     storeId: number;
-    menus: OrderMenu[];
+    orderItemIds: number[];
   }
 
   interface AllOrders {
     orderId: number;
     totalPrice: number;
     discountPrice: number;
-    orderItems: {
-      orderItemId: number;
-      count: number;
-      price: number;
-      menuOptions: MenuOption[];
-      menu: Menu;
-    };
+    orderItems: OrderBasketList[];
     orderStatus: string;
   }
 
@@ -23,5 +17,21 @@ declare module "@types" {
     menuId: number;
     count: number;
     menuOptionIds: number[];
+  }
+
+  interface OrderBasketList {
+    orderItemId: number;
+    count: number;
+    price: number;
+    menuOptions: MenuOption[];
+    menu: Menu;
+  }
+
+  interface OrderSummaryInfo {
+    orderId: number;
+    totalPrice: number;
+    discountPrice: number;
+    menuNames: string[];
+    orderStatus: string;
   }
 }

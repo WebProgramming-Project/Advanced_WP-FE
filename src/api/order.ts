@@ -1,4 +1,4 @@
-import { AllOrders, Order, OrderBasket } from "@types";
+import { AllOrders, Order, OrderBasket, OrderBasketList } from "@types";
 import { customAxios } from "./customAxios";
 
 export const postOrder = (data: Order) => {
@@ -10,7 +10,7 @@ export const postOrder = (data: Order) => {
 };
 
 export const getAllOrderList = () => {
-  return customAxios<AllOrders>({
+  return customAxios<AllOrders[]>({
     url: "/orders/myorders",
     method: "GET",
   }).then((res) => res.data);
@@ -21,5 +21,19 @@ export const postOrderBaseket = (data: OrderBasket) => {
     url: "/orders/items",
     method: "POST",
     data: data,
+  }).then((res) => res.data);
+};
+
+export const getOrderBaseket = () => {
+  return customAxios<OrderBasketList[]>({
+    url: "/orders/items",
+    method: "GET",
+  }).then((res) => res.data);
+};
+
+export const deleteOrder = (orderItemId: number) => {
+  return customAxios({
+    url: `/orders/items/${orderItemId}`,
+    method: "DELETE",
   }).then((res) => res.data);
 };

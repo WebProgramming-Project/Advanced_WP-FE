@@ -6,22 +6,63 @@ import {
   Flex,
   Heading,
   Icon,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  Table,
-  Tbody,
-  Td,
-  Tfoot,
-  Th,
-  Thead,
-  Tr,
+  Text,
 } from "@chakra-ui/react";
 import { semanticColors } from "../styles";
 import { BsCart2 } from "react-icons/bs";
+import {
+  useDeleteOrder,
+  useGetOrderBasket,
+  usePostOrder,
+} from "../react-query/useOrder";
+import { OrderBasketList } from "@types";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { storeInfoState } from "../store/store";
+import { Item } from "../components/basket/Item";
 
 export const ShoppingBasketPage = () => {
+  const { data, refetch } = useGetOrderBasket();
+  const { mutate } = usePostOrder();
+  const { mutate: mutateDelete } = useDeleteOrder();
+
+  const storeInfo = useRecoilValue(storeInfoState);
+
+  const [basketList, setBasketList] = useState<OrderBasketList[]>([]);
+  const [checkedList, setCheckedList] = useState<number[]>([]);
+
+  useEffect(() => {
+    if (!data) return;
+
+    setBasketList(data);
+  }, [data]);
+
+  const onClick = () => {
+    mutate(
+      {
+        storeId: storeInfo.storeId,
+        orderItemIds: checkedList,
+      },
+      {
+        onSuccess: () => {
+          refetch();
+          setCheckedList([]);
+        },
+      }
+    );
+  };
+
+  const onDeleteItem = () => {
+    if (checkedList.length === 0) return alert("삭제할 메뉴를 선택해주세요");
+    if (checkedList.length > 1) return alert("한개씩만 삭제 가능합니다.");
+
+    mutateDelete(checkedList[0], {
+      onSuccess: () => {
+        setCheckedList([]);
+      },
+    });
+  };
+
   return (
     <Box w="full">
       <Flex mt="2rem" px="2rem" color={semanticColors.primary}>
@@ -34,82 +75,61 @@ export const ShoppingBasketPage = () => {
         border="1px solid"
         borderColor={semanticColors.primary}
       />
-      <Table size="lg">
-        <Thead>
-          <Tr>
-            <Th fontSize="1.25rem" textAlign="center">
-              <Checkbox></Checkbox>
-            </Th>
-            <Th fontSize="1.25rem" textAlign="center">
-              제품
-            </Th>
-            <Th fontSize="1.25rem" textAlign="center">
-              수량
-            </Th>
-            <Th fontSize="1.25rem" textAlign="center">
-              가격
-            </Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr fontSize="xl">
-            <Td textAlign="center">
-              <Checkbox></Checkbox>
-            </Td>
-            <Td textAlign="center">싸이버거</Td>
-            <Td textAlign="center">
-              <NumberInput
-                w="10rem"
-                mx="auto"
-                display="flex"
-                size="sm"
-                defaultValue={1}
-                min={1}
-              >
-                <NumberDecrementStepper
-                  children="-"
-                  border="1px solid"
-                  borderColor="gray.6"
-                  borderRadius="0"
-                  fontSize="1rem"
-                  _hover={{ bgColor: "gray.3" }}
-                />
-                <NumberInputField
-                  w="6rem"
-                  border="1px solid"
-                  borderColor="gray.4"
-                  borderRadius="0"
-                  textAlign="center"
-                />
-                <NumberIncrementStepper
-                  children="+"
-                  border="1px solid"
-                  borderColor="gray.4"
-                  borderRadius="0"
-                  fontSize="1rem"
-                  _hover={{ bgColor: "gray.3" }}
-                />
-              </NumberInput>
-            </Td>
-            <Td textAlign="center" color={semanticColors.primary}>
-              5,600원
-            </Td>
-          </Tr>
-        </Tbody>
-        <Tfoot borderY="2px solid" borderColor={semanticColors.primary}>
-          <Tr>
-            <Th></Th>
-            <Th></Th>
-            <Th></Th>
-            <Th textAlign="center" fontSize="xl" color={semanticColors.primary}>
-              5,600원
-            </Th>
-          </Tr>
-        </Tfoot>
-      </Table>
+      <Box>
+        <Flex
+          alignItems="center"
+          h="3rem"
+          px="3rem"
+          borderBottom="1px solid"
+          borderColor={semanticColors.primary}
+        >
+          <Checkbox
+            onChange={(e) =>
+              e.target.checked
+                ? setCheckedList(basketList.map((v) => v.orderItemId))
+                : setCheckedList([])
+            }
+          ></Checkbox>
+          <Flex w="45rem" ml="3rem" alignItems="end">
+            <Text fontSize="1.5rem">메뉴</Text>
+            <Text fontSize="0.75rem">option</Text>
+          </Flex>
+          <Text w="5rem" fontSize="1.5rem" textAlign="center">
+            수량
+          </Text>
+          <Text w="5rem" fontSize="1.5rem" ml="3.5rem" textAlign="center">
+            가격
+          </Text>
+        </Flex>
+        {basketList.map((item) => (
+          <Item
+            key={item.orderItemId}
+            chekedList={checkedList}
+            setCheckedList={setCheckedList}
+            orderItemId={item.orderItemId}
+            name={item.menu.menuName}
+            option={item.menuOptions}
+            quantity={item.count}
+            price={item.price * item.count}
+          />
+        ))}
+        <Flex
+          alignItems="center"
+          justifyContent="flex-end"
+          px="3rem"
+          borderY="1px solid"
+          borderColor={semanticColors.primary}
+        >
+          <Text w="5rem" fontSize="1.5rem" mr="5.5rem" textAlign="center">
+            {basketList.reduce((acc, cur) => acc + cur.price * cur.count, 0)}
+          </Text>
+        </Flex>
+      </Box>
       <Flex alignItems="center" justifyContent="flex-end" mt="1rem">
-        <Button variant="danger">삭제</Button>
-        <Button variant="primary" ml="1rem">
+        <Button variant="danger" onClick={onDeleteItem}>
+          삭제
+        </Button>
+        <Button variant="primary" ml="1rem" onClick={onClick}>
           주문하기
         </Button>
       </Flex>
