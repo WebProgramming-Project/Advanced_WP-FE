@@ -24,12 +24,7 @@ export const MenuInfo = ({ title, imgSrc, description }: MenuInfoProps) => {
       <Heading as="h2" size="lg" my="1rem">
         {title}
       </Heading>
-      <Image
-        src={`data:image/png;base64,${imgSrc}`}
-        alt={title}
-        boxSize="16rem"
-        mx="auto"
-      />
+      <Image src={imgSrc} alt={title} boxSize="16rem" mx="auto" />
       <Text my="1rem">{description}</Text>
       <Flex
         w="20rem"
