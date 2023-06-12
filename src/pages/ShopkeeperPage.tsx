@@ -9,7 +9,7 @@ import MiniTable from "../components/shopkeeper/policy/MiniTable";
 import PolicyItem from "../components/shopkeeper/policy/PolicyItem";
 import { MenuContainer } from "../components/shopkeeper/menu/MenuContainer";
 import { GraphContainer } from "../components/shopkeeper/stat/GraphContainer";
-
+import { PolicyContainer } from "../components/shopkeeper/policy/PolicyContainer";
 const ShopkeeperPage = (): JSX.Element => {
   return (
     <Box w="full">
@@ -43,7 +43,7 @@ const ShopkeeperPage = (): JSX.Element => {
           <TabPanel>
             <Title title="할인 설정" />
             <MiniTable />
-            <PolicyItem />
+            <PolicyContainer />
           </TabPanel>
           <TabPanel>
             <Title title="통계" />
