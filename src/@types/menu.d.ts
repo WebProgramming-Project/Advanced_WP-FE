@@ -4,7 +4,6 @@ declare module "@types" {
     menuName: string;
     menuPrice: number;
     menuDescription: string;
-    image: string[];
   }
 
   interface MenuOption {
@@ -18,27 +17,9 @@ declare module "@types" {
     menuName: string;
     menuPrice: number;
     menuDescription: string;
-    image: string[];
     discountPolicy: string;
     menuOptionList: MenuOption[];
     sideMenuList: Menu[];
-    sideMenu: {
-      menuId: number;
-      menuName: string;
-      menuPrice: number;
-      menuDescription: string;
-      image: string[];
-      dicountPolicy: string;
-      menuType: string;
-      main: boolean;
-      store: StoreInfo;
-    };
-    menuOption: {
-      menuOptionId: number;
-      optionName: string;
-      extraPrice: number;
-      menu: Menu;
-    };
   }
 
   interface OrderMenu {

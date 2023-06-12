@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { theme } from "./styles";
 import { BrowserRouter } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const queryClient = new QueryClient();
 
@@ -19,12 +20,16 @@ root.render(
   <React.StrictMode>
     <RecoilRoot>
       <ChakraProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-          <ColorModeScript />
-        </QueryClientProvider>
+        <GoogleOAuthProvider
+          clientId={`${process.env.REACT_APP_GOOGLE_CLIENT_ID}`}
+        >
+          <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+            <ColorModeScript />
+          </QueryClientProvider>
+        </GoogleOAuthProvider>
       </ChakraProvider>
     </RecoilRoot>
   </React.StrictMode>

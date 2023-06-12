@@ -17,4 +17,11 @@ declare module "@types" {
     };
     orderStatus: string;
   }
+
+  interface OrderBasket {
+    storeId: number;
+    menuId: number;
+    count: number;
+    menuOptionIds: number[];
+  }
 }
