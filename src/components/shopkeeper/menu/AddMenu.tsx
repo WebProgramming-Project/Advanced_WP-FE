@@ -1,15 +1,13 @@
-import React, { useRef, useCallback, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Box, Image, Button, Input } from "@chakra-ui/react";
 import noImage from "../../../assets/img/noImage.jpeg";
-// import { usePostMenu } from "../../../react-query/useMenu";
 import { useRecoilValue } from "recoil";
 import { storeInfoState } from "../../../store/store";
 import axios from "axios";
 
 const AddMenu = () => {
-  // const { mutate, isLoading } = usePostMenu();
-  const [image, setImage]: any = useState([]);
-  const [base64Image, setBase64Image] = useState("");
+  const [image, setImage]: any = useState(null);
+  const [formData, setFormData] = useState<FormData>();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [newMenu, setNewMenu] = useState({
     name: "",
@@ -25,27 +23,19 @@ const AddMenu = () => {
     if (!e.target.files) {
       return;
     }
-    // console.log(e.target.files[0].name);
 
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImage(reader.result);
-    };
-  };
 
-  const convertBase64 = (file: File) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
+    const formData = new FormData();
+    formData.append("image", e.target.files[0]);
+    setFormData(formData);
 
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
+    return new Promise<void>((resolve) => {
+      reader.onload = () => {
+        setImage(reader.result || null); // 파일의 컨텐츠
+        resolve();
       };
     });
   };
@@ -61,38 +51,38 @@ const AddMenu = () => {
   const newMenuSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    const menuInfo = {
-      storeId: getStoreInfo.storeId,
-      name: name,
-      price: price,
-      description: description,
-    };
-
-    const formData = new FormData();
-    // formData.append("image", imageFile);
-
-    const imageJson = JSON.stringify(btoa(image));
-    const imageBlob = new Blob([imageJson], { type: "application/json" });
-    formData.append("image", imageBlob);
-
-    // formData.append("request", menuInfo.toString());
-    const infoJson = JSON.stringify(menuInfo);
-    const infoBlob = new Blob([infoJson], { type: "application/json" });
-    formData.append("request", infoBlob);
-
     await axios({
       method: "post",
-      url: process.env.REACT_APP_API_ENDPOINT + "menus", //환경변수
+      url: process.env.REACT_APP_API_ENDPOINT + "menus/images", //환경변수
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
+    }).then(async (res) => {
+      const menuInfo = {
+        storeId: getStoreInfo.storeId,
+        name: name,
+        price: Number(price),
+        description: description,
+        image: res.data,
+      };
+
+      const data = JSON.stringify(menuInfo);
+
+      await axios({
+        method: "post",
+        url: process.env.REACT_APP_API_ENDPOINT + "menus", //환경변수
+        data,
+        headers: { "Content-Type": `application/json` },
+      });
     });
 
-    setImage([]);
+    setImage(null);
     setNewMenu({
       name: "",
       price: 0,
       description: "",
     });
+
+    location.reload();
   };
 
   return (

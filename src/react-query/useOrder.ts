@@ -1,12 +1,12 @@
 import { Order, OrderBasket } from "@types";
 import { useMutation, useQuery } from "react-query";
 import {
-  deleteOrder,
   getAllOrderList,
-  getOrderBaseket,
-  getOrderStat,
   postOrder,
   postOrderBaseket,
+  postComplete,
+  postCencel,
+  postAccept,
 } from "../api/order";
 
 // 주문하기
@@ -49,4 +49,19 @@ export const useGetOrderStat = () => {
     refetchOnReconnect: false,
     refetchOnMount: false,
   });
+};
+
+// 배달 완료
+export const usePostComplete = (id: number) => {
+  return postComplete(id);
+};
+
+//배달 취소
+export const usePostCancel = (id: number) => {
+  return postCencel(id);
+};
+
+//배달 수락
+export const usePostAccept = (id: number) => {
+  return postAccept(id);
 };

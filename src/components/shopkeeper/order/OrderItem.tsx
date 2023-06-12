@@ -8,41 +8,122 @@ import {
   Button,
 } from "@chakra-ui/react";
 import Burger from "../../../assets/img/마라싸이버거.png";
+import {
+  usePostAccept,
+  usePostComplete,
+  usePostCancel,
+} from "../../../react-query/useOrder";
 
-const OrderItem = (): JSX.Element => {
-  const [status, SetStatus] = useState<string>("newOrder");
+const OrderItem = ({ data }: any): JSX.Element => {
+  const [status, setStatus] = useState<string>(data.orderStatus);
+
+  const toComplete = () => {
+    usePostComplete(data.orderId);
+    setStatus("COMPLETE");
+  };
+
+  const toAccpet = () => {
+    usePostAccept(data.orderId);
+    setStatus("DELIVERY");
+  };
+
+  const toCancel = () => {
+    usePostCancel(data.orderId);
+    setStatus("CANCEL");
+  };
+
+  const state = (status: string) => {
+    if (status == "ORDER") {
+      return (
+        <>
+          <Button variant="primary" onClick={toAccpet}>
+            수락
+          </Button>
+          <Button variant="danger" onClick={toCancel}>
+            거절
+          </Button>
+        </>
+      );
+    } else if (status == "DELIVERY") {
+      return (
+        <>
+          <Button variant="primary" onClick={toComplete}>
+            배달완료
+          </Button>
+        </>
+      );
+    } else {
+      <></>;
+    }
+  };
+
+  const stateusToString = (status: string): string => {
+    let result = "";
+
+    if (status === "ORDER") {
+      result = "주문";
+    } else if (status === "DELIVERY") {
+      result = "배달중";
+    } else if (status === "COMPLETE") {
+      result = "배달완료";
+    } else if (status === "CANCEL") {
+      result = "주문취소";
+    } else {
+      result = "에러";
+    }
+
+    return result;
+  };
 
   return (
     <>
-      <Box w="full" height="80px">
-        <Box w="35%" float="left">
-          <Image
-            boxSize="60px"
-            objectFit="cover"
-            src={Burger}
-            alt="Burger"
-            float="left"
-            mt="10px"
-            ml="10px"
-          />
-          <Heading as="h4" size="md" lineHeight="80px" ml="10px" float="left">
-            싸이버거 세트(케이준양념감자, 콜라)
-          </Heading>
-        </Box>
-        <Box w="5%" float="left">
-          <Heading as="h4" textAlign="center" size="md" lineHeight="80px">
-            1 개
-          </Heading>
-        </Box>
+      <Box
+        w="full"
+        height="80px"
+        border="1px"
+        borderColor="gray.4"
+        borderRadius="5"
+        mt="10px"
+      >
+        {/* 이거 map으로 돌려야함 */}
+        {data.orderItems.map((item: any) => (
+          <>
+            <Box w="35%" float="left">
+              <Image
+                boxSize="60px"
+                objectFit="cover"
+                src={Burger}
+                alt="Burger"
+                float="left"
+                mt="10px"
+                ml="10px"
+              />
+              <Heading
+                as="h4"
+                size="md"
+                lineHeight="80px"
+                ml="10px"
+                float="left"
+              >
+                {item.menu.menuName}
+              </Heading>
+            </Box>
+            <Box w="5%" float="left">
+              <Heading as="h4" textAlign="center" size="md" lineHeight="80px">
+                {item.count}개
+              </Heading>
+            </Box>
+          </>
+        ))}
 
         <Box w="25%" float="left">
           <Text
-            fontSize="sm"
+            fontSize="md"
             lineHeight="80px"
             color="gray.6"
             textAlign="center"
           >
-            경북 구미시 대학로 61길 디지털관 337호
+            {data.totalPrice.toLocaleString()}원
           </Text>
         </Box>
         <Box w="15%" float="left">
@@ -53,19 +134,16 @@ const OrderItem = (): JSX.Element => {
             lineHeight="80px"
             color="yellow.7"
           >
-            56,000원
+            {data.discountPrice.toLocaleString()}원
           </Heading>
         </Box>
         <Box w="5%" float="left">
           <Text fontSize="sm" lineHeight="80px" textAlign="center">
-            주문 접수
+            {stateusToString(status)}
           </Text>
         </Box>
         <Box w="15%" float="left" textAlign="center">
-          <ButtonGroup mt="20px">
-            <Button variant="primary">수락</Button>
-            <Button variant="danger">거절</Button>
-          </ButtonGroup>
+          <ButtonGroup mt="20px">{state(status)}</ButtonGroup>
         </Box>
       </Box>
     </>

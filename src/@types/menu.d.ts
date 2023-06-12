@@ -5,6 +5,7 @@ declare module "@types" {
     menuPrice: number;
     discountPolicy: string;
     menuDescription: string;
+    discountPolicy: string;
     image: string;
   }
 
