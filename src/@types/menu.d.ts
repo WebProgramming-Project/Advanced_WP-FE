@@ -6,6 +6,10 @@ declare module "@types" {
     menuDescription: string;
   }
 
+  interface InsertMenu {
+    formData: FormData;
+  }
+
   interface MenuOption {
     menuOptionId: number;
     menuOptionName: string;

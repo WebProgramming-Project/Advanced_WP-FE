@@ -1,5 +1,6 @@
-import { useQuery } from "react-query";
-import { getImage, getMenuDetail, getMenuList } from "../api/menu";
+import { useMutation, useQuery } from "react-query";
+import { getImage, getMenuDetail, getMenuList, postMenu } from "../api/menu";
+import { InsertMenu } from "@types";
 
 // 메인페이지 메뉴 리스트 조회
 export const useGetMenuList = () => {
@@ -25,4 +26,9 @@ export const useGetImage = (menuId: number) => {
     refetchOnReconnect: false,
     refetchOnMount: false,
   });
+};
+
+// 메뉴 등록
+export const usePostMenu = () => {
+  return useMutation((data: InsertMenu) => postMenu(data));
 };
