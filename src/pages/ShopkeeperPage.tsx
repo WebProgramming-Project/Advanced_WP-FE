@@ -5,11 +5,12 @@ import { semanticColors } from "../styles/semanticColor";
 import Title from "../components/shopkeeper/Title";
 import AddMenu from "../components/shopkeeper/menu/AddMenu";
 import OrderBox from "../components/shopkeeper/order/OrderBox";
-import MiniTable from "../components/shopkeeper/policy/MiniTable";
+import MiniTableP from "../components/shopkeeper/policy/MiniTable";
 import PolicyItem from "../components/shopkeeper/policy/PolicyItem";
 import { MenuContainer } from "../components/shopkeeper/menu/MenuContainer";
 import { GraphContainer } from "../components/shopkeeper/stat/GraphContainer";
 import { PolicyContainer } from "../components/shopkeeper/policy/PolicyContainer";
+import MiniTable from "../components/shopkeeper/order/MiniTable";
 const ShopkeeperPage = (): JSX.Element => {
   return (
     <Box w="full">
@@ -38,11 +39,12 @@ const ShopkeeperPage = (): JSX.Element => {
           </TabPanel>
           <TabPanel>
             <Title title="주문 목록" />
+            <MiniTable />
             <OrderBox />
           </TabPanel>
           <TabPanel>
             <Title title="할인 설정" />
-            <MiniTable />
+            <MiniTableP />
             <PolicyContainer />
           </TabPanel>
           <TabPanel>
