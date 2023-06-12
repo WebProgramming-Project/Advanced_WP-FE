@@ -79,42 +79,45 @@ const OrderItem = ({ data }: any): JSX.Element => {
     <>
       <Box
         w="full"
-        height="80px"
+        minHeight="80px"
         border="1px"
         borderColor="gray.4"
         borderRadius="5"
         mt="10px"
+        display="flex"
+        alignItems="center"
       >
         {/* 이거 map으로 돌려야함 */}
-        {data.orderItems.map((item: any) => (
-          <>
-            <Box w="35%" float="left">
-              <Image
-                boxSize="60px"
-                objectFit="cover"
-                src={Burger}
-                alt="Burger"
-                float="left"
-                mt="10px"
-                ml="10px"
-              />
-              <Heading
-                as="h4"
-                size="md"
-                lineHeight="80px"
-                ml="10px"
-                float="left"
-              >
-                {item.menu.menuName}
-              </Heading>
-            </Box>
-            <Box w="5%" float="left">
-              <Heading as="h4" textAlign="center" size="md" lineHeight="80px">
-                {item.count}개
-              </Heading>
-            </Box>
-          </>
-        ))}
+        <Box w="40%">
+          {data.orderItems.map((item: any) => (
+            <>
+              <Box display="flex">
+                <Image
+                  boxSize="60px"
+                  objectFit="cover"
+                  src={Burger}
+                  alt="Burger"
+                  float="left"
+                  mt="10px"
+                  ml="10px"
+                />
+                <Heading
+                  as="h4"
+                  size="md"
+                  lineHeight="80px"
+                  ml="10px"
+                  float="left"
+                  w="70%"
+                >
+                  {item.menu.menuName}
+                </Heading>
+                <Heading as="h4" textAlign="right" size="md" lineHeight="80px">
+                  {item.count}개
+                </Heading>
+              </Box>
+            </>
+          ))}
+        </Box>
 
         <Box w="25%" float="left">
           <Text
