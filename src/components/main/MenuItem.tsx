@@ -6,22 +6,35 @@ import {
   Link,
   ScaleFade,
   Box,
+  Flex,
+  Badge,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { semanticColors } from "../../styles";
-import { useGetImage } from "../../react-query/useMenu";
 
 interface MenuItemProps {
   id: number;
   title: string;
   description: string;
+  discountPolicy: string;
+  image: string;
 }
 
-export const MenuItem = ({ id, title, description }: MenuItemProps) => {
-  const { data: imgSrc } = useGetImage(Number(id));
+const discountPolicyArr = [
+  { eng: "NONE", kor: "할인 없음" },
+  { eng: "AMOUNT", kor: "정량" },
+  { eng: "PERCENT", kor: "정률" },
+  { eng: "MORNING", kor: "조조" },
+];
 
+export const MenuItem = ({
+  id,
+  title,
+  description,
+  discountPolicy,
+  image,
+}: MenuItemProps) => {
   const [isOver, setIsOver] = useState<boolean>(false);
-  console.log(imgSrc);
 
   return (
     <>
@@ -34,8 +47,14 @@ export const MenuItem = ({ id, title, description }: MenuItemProps) => {
           borderColor="gray.2"
           onMouseOver={() => setIsOver(true)}
         >
-          <Image src={imgSrc} w="full" h="full" mx="auto" boxSize="10rem" />
-          <Heading fontSize="md">{title}</Heading>
+          <Image src={image} w="full" h="full" mx="auto" boxSize="10rem" />
+          <Flex alignItems="center">
+            <Heading fontSize="md">{title}</Heading>
+
+            <Badge colorScheme="purple">
+              {discountPolicyArr.find((v) => v.eng === discountPolicy)?.kor}
+            </Badge>
+          </Flex>
           <Text
             fontSize="sm"
             w="18rem"
@@ -70,7 +89,7 @@ export const MenuItem = ({ id, title, description }: MenuItemProps) => {
               >
                 {title}
               </Heading>
-              <Image src={imgSrc} boxSize="23rem" />
+              <Image src={image} boxSize="23rem" />
             </Box>
           </ScaleFade>
         </Link>

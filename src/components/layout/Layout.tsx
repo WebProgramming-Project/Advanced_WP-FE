@@ -22,8 +22,6 @@ import { useGetStore } from "../../react-query/useStore";
 import { useEffect, useState } from "react";
 import { Store } from "@types";
 import { tohhmm } from "../../utils/dateUtil";
-import { GoogleLogin } from "@react-oauth/google";
-import jwtDecode from "jwt-decode";
 import { useSetRecoilState } from "recoil";
 import { storeInfoState } from "../../store/store";
 
@@ -60,6 +58,7 @@ export const Layout = () => {
         position="sticky"
         top="0"
         bgColor="white"
+        zIndex="1"
       >
         <IconButton
           aria-label="menu"
@@ -100,17 +99,10 @@ export const Layout = () => {
         />
         <MenuDrawer isOpen={isOpen} onClose={onClose} />
       </Flex>
-      <Flex w="1184px" h="100vh" mx="auto">
+      <Flex w="1184px" h="100vh" mx="auto" pb="65rem">
         <Outlet />
       </Flex>
-      <Flex
-        mt="10rem"
-        h="130px"
-        w="100%"
-        bgColor="gray.2"
-        px="200px"
-        alignItems="center"
-      >
+      <Flex h="130px" w="100%" bgColor="gray.2" px="200px" alignItems="center">
         <Box w="1184px" mx="auto">
           <Text fontSize="lg" fontWeight="bold" color={semanticColors.primary}>
             {store.storeName}
@@ -190,17 +182,35 @@ const MenuDrawer = ({ isOpen, onClose }: MenuDrawerProps) => {
           >
             마이페이지
           </Button>
+          <Button
+            as={Link}
+            href="/shopkeeper"
+            w="full"
+            h="3rem"
+            my="2px"
+            _hover={{
+              bgColor: semanticColors.primary,
+              textDecor: "none",
+              color: "white",
+            }}
+            variant="ghost"
+            fontSize="2xl"
+          >
+            점주페이지
+          </Button>
         </DrawerBody>
         <DrawerFooter borderTop="1px solid" borderColor="gray.4">
-          <GoogleLogin
-            onSuccess={(credentialResponse) => {
-              console.log(credentialResponse);
-              const decoded = jwtDecode(credentialResponse?.credential || "");
-              console.log(decoded);
-            }}
-            width="120rem"
-            useOneTap
-          />
+          <Button
+            as={Link}
+            href="http://seboard2.site/oauth2/authorization/google"
+            w="full"
+            h="3rem"
+            my="2px"
+            variant="primary"
+            fontSize="2xl"
+          >
+            로그인
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

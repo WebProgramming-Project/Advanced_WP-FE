@@ -28,6 +28,29 @@ export const usePostOrderBasket = () => {
   return useMutation((data: OrderBasket) => postOrderBaseket(data));
 };
 
+// 장바구니 조회
+export const useGetOrderBasket = () => {
+  return useQuery(["orderBasket"], getOrderBaseket, {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });
+};
+
+// 장바구니 삭제
+export const useDeleteOrder = () => {
+  return useMutation((orderItemId: number) => deleteOrder(orderItemId));
+};
+
+// 주문 통계 조회
+export const useGetOrderStat = () => {
+  return useQuery(["orderStat"], getOrderStat, {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  });
+};
+
 // 배달 완료
 export const usePostComplete = (id: number) => {
   return postComplete(id);

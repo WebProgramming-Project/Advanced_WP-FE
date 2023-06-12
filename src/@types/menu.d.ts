@@ -3,6 +3,7 @@ declare module "@types" {
     menuId: number;
     menuName: string;
     menuPrice: number;
+    discountPolicy: string;
     menuDescription: string;
     discountPolicy: string;
     image: string;
@@ -23,6 +24,7 @@ declare module "@types" {
     menuName: string;
     menuPrice: number;
     menuDescription: string;
+    image: string;
     discountPolicy: string;
     menuOptionList: MenuOption[];
     sideMenuList: Menu[];

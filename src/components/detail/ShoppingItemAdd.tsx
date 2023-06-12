@@ -24,10 +24,11 @@ import {
 import { semanticColors } from "../../styles";
 import { Menu, MenuOption } from "@types";
 import { useEffect, useState } from "react";
-import { useGetImage } from "../../react-query/useMenu";
 import { usePostOrderBasket } from "../../react-query/useOrder";
 import { useRecoilValue } from "recoil";
 import { storeInfoState } from "../../store/store";
+import potato from "../../assets/img/감튀.png";
+import cola from "../../assets/img/콜라.png";
 
 interface ShoppingItemAddProps {
   menuId: number;
@@ -48,8 +49,6 @@ export const ShoppingItemAdd = ({
   activeBtn,
   setActiveBtn,
 }: ShoppingItemAddProps) => {
-  const { data: imgSrc1 } = useGetImage(Number(sideList[0]?.menuId || 2004));
-  const { data: imgSrc2 } = useGetImage(Number(sideList[1]?.menuId || 2005));
   const { mutate, isLoading } = usePostOrderBasket();
   const getStoreInfo = useRecoilValue(storeInfoState);
 
@@ -209,7 +208,7 @@ export const ShoppingItemAdd = ({
               >
                 <Flex alignItems="center">
                   <Image
-                    src={imgSrc1 || ""}
+                    src={potato}
                     alt="감자튀김"
                     boxSize="4rem"
                     border="1px solid"
@@ -262,7 +261,7 @@ export const ShoppingItemAdd = ({
               >
                 <Flex alignItems="center">
                   <Image
-                    src={imgSrc2 || ""}
+                    src={cola}
                     alt="콜라"
                     boxSize="4rem"
                     border="1px solid"
