@@ -5,6 +5,8 @@ import { Box } from "@chakra-ui/react";
 import { DetailPage, Main, MyPage } from "./pages";
 import { ShoppingBasketPage } from "./pages";
 
+import ShopkeeperPage from "./pages/ShopkeeperPage";
+
 function App() {
   return (
     <Routes>
@@ -13,7 +15,14 @@ function App() {
         <Route path="/order" element={<ShoppingBasketPage />} />
         <Route path="/detail/:id" element={<DetailPage />} />
         <Route path="/mypage" element={<MyPage />} />
-        <Route path="/shopkeeper" element={<Box w="full">Shopkeeper</Box>} />
+        <Route
+          path="/shopkeeper"
+          element={
+            <Box w="full">
+              <ShopkeeperPage />
+            </Box>
+          }
+        />
       </Route>
     </Routes>
   );
