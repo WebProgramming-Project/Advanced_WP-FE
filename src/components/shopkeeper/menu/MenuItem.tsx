@@ -119,7 +119,9 @@ const MenuItem = ({
             {name}
           </Heading>
           <Text fontSize="sm" mt="3px">
-            {menuDescription}
+            {menuDescription.length > 54
+              ? (menuDescription = menuDescription.slice(0, 55) + "...")
+              : menuDescription}
           </Text>
         </Box>
         <Box float="right" mt="32px">

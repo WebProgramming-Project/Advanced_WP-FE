@@ -64,7 +64,7 @@ const PolicyItem = ({
     const menuInfo = {
       name: name,
       price: price,
-      menuDescription: menuDescription,
+      description: menuDescription,
       discountPolicy: value,
       image: image,
     };
@@ -105,7 +105,9 @@ const PolicyItem = ({
               {name}
             </Heading>
             <Text fontSize="sm" mt="3px">
-              {menuDescription}
+              {menuDescription.length > 54
+                ? (menuDescription = menuDescription.slice(0, 55) + "...")
+                : menuDescription}
             </Text>
           </Box>
           <Heading
