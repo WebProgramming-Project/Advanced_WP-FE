@@ -8,6 +8,19 @@ export const axiosInstance = axios.create({
   },
 });
 
+// axiosInstance.interceptors.request.use(
+//   (config: any) => ({
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     ...config,
+//   }),
+//   (error) => {
+//     alert(error.message);
+//     return Promise.reject(error);
+//   }
+// );
+
 axiosInstance.interceptors.response.use(
   (res) => {
     if (process.env.NODE_ENV !== "production") {

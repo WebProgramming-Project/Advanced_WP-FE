@@ -28,11 +28,8 @@ import {
   BsTruck,
 } from "react-icons/bs";
 import { semanticColors } from "../styles";
-import { orderData } from "../assets/data/data";
 
 export const MyPage = () => {
-  const data = orderData.order;
-
   return (
     <Box w="full" py="3rem">
       <Box>

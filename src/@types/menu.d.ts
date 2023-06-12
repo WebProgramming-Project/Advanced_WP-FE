@@ -7,13 +7,7 @@ declare module "@types" {
   }
 
   interface InsertMenu {
-    request: {
-      storeId: number;
-      name: string;
-      price: number;
-      description: string;
-    };
-    image: string;
+    formData: FormData;
   }
 
   interface MenuOption {
@@ -27,27 +21,9 @@ declare module "@types" {
     menuName: string;
     menuPrice: number;
     menuDescription: string;
-    image: string[];
     discountPolicy: string;
     menuOptionList: MenuOption[];
     sideMenuList: Menu[];
-    sideMenu: {
-      menuId: number;
-      menuName: string;
-      menuPrice: number;
-      menuDescription: string;
-      image: string[];
-      dicountPolicy: string;
-      menuType: string;
-      main: boolean;
-      store: StoreInfo;
-    };
-    menuOption: {
-      menuOptionId: number;
-      optionName: string;
-      extraPrice: number;
-      menu: Menu;
-    };
   }
 
   interface OrderMenu {
