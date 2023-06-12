@@ -5,7 +5,7 @@ declare module "@types" {
     orders: Menu[];
   }
 
-  interface Menu {
+  interface OrderMenu {
     menuId: number;
     menuName: string;
     menuPrice: number;

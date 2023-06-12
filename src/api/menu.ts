@@ -1,4 +1,4 @@
-import { Menu, MenuDetail } from "@types";
+import { Menu, MenuDetail, InsertMenu } from "@types";
 import { customAxios } from "./customAxios";
 
 export const getMenuList = () => {
@@ -12,5 +12,13 @@ export const getMenuDetail = (menuId: number) => {
   return customAxios<MenuDetail>({
     url: `.menus/${menuId}`,
     method: "GET",
+  }).then((res) => res.data);
+};
+
+export const postMenu = (data: InsertMenu) => {
+  return customAxios<Menu>({
+    url: "/menus",
+    method: "POST",
+    data: data,
   }).then((res) => res.data);
 };

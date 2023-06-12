@@ -4,7 +4,16 @@ declare module "@types" {
     menuName: string;
     menuPrice: number;
     menuDescription: string;
-    image: string[];
+  }
+
+  interface InsertMenu {
+    request: {
+      storeId: number;
+      name: string;
+      price: number;
+      description: string;
+    };
+    image: string;
   }
 
   interface MenuOption {

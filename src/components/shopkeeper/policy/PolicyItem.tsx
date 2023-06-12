@@ -16,7 +16,7 @@ import {
   Radio,
   RadioGroup,
 } from "@chakra-ui/react";
-import burger from "../../../assets/img/1616055241-EYPWG.png";
+import burger from "../../../assets/img/마라싸이버거.png";
 import { semanticColors } from "../../../styles/semanticColor";
 
 const PolicyItem = (): JSX.Element => {

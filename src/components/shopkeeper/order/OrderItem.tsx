@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Image,
@@ -7,9 +7,11 @@ import {
   ButtonGroup,
   Button,
 } from "@chakra-ui/react";
-import Burger from "../../../assets/img/1616055241-EYPWG.png";
+import Burger from "../../../assets/img/마라싸이버거.png";
 
 const OrderItem = (): JSX.Element => {
+  const [status, SetStatus] = useState<string>("newOrder");
+
   return (
     <>
       <Box w="full" height="80px">
