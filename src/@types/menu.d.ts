@@ -4,6 +4,8 @@ declare module "@types" {
     menuName: string;
     menuPrice: number;
     menuDescription: string;
+    discountPolicy: string;
+    image: string;
   }
 
   interface InsertMenu {

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
-import MenuItem from "./MenuItem";
+import PolicyItem from "./PolicyItem";
 import { useGetMenuList } from "../../../react-query/useMenu";
 import { Menu } from "@types";
 
-export const MenuContainer = () => {
+export const PolicyContainer = () => {
   const { data } = useGetMenuList();
   const [menus, setMenus] = useState<Menu[]>([]);
 
@@ -13,10 +13,12 @@ export const MenuContainer = () => {
     setMenus(data);
   }, [data]);
 
+  console.log(menus);
+
   return (
     <Box w="full">
       {menus.map((item) => (
-        <MenuItem
+        <PolicyItem
           id={item.menuId}
           name={item.menuName}
           price={item.menuPrice}
