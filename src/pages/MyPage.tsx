@@ -42,7 +42,7 @@ export const MyPage = () => {
     );
   }, [myOrderList]);
 
-  const webSocketUrl = `ws://seboard2.site/ws/customer`;
+  const webSocketUrl = `ws://localhost/ws/customer`;
   const ws = useRef<WebSocket>();
 
   useEffect(() => {
