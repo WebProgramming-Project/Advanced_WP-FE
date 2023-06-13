@@ -202,7 +202,7 @@ const MenuDrawer = ({ isOpen, onClose }: MenuDrawerProps) => {
         <DrawerFooter borderTop="1px solid" borderColor="gray.4">
           <Button
             as={Link}
-            href="http://seboard2.site/oauth2/authorization/google"
+            href="http://localhost/oauth2/authorization/google"
             w="full"
             h="3rem"
             my="2px"

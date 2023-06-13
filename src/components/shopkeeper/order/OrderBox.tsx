@@ -7,7 +7,7 @@ const OrderBox = (): JSX.Element => {
   const [sendMsg, setSendMsg] = useState(false);
   const [items, setItems] = useState([]);
 
-  const webSocketUrl = `ws://seboard2.site/ws/orders`;
+  const webSocketUrl = `ws://localhost/ws/orders`;
   const ws = useRef<WebSocket>();
 
   // 소켓 객체 생성
